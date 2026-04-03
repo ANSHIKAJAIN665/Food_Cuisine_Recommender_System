@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 import pickle
 import pandas as pd
+import os
+import requests
 
 app = Flask(__name__)
 
@@ -8,7 +10,25 @@ app = Flask(__name__)
 data = pickle.load(open('food_dict.pkl', 'rb'))
 new_df = pd.DataFrame(data)
 
-# Load similarity
+# 🔥 Download similarity.pkl if not exists
+if not os.path.exists("similarity.pkl"):
+    url = "https://drive.google.com/uc?export=download&id=1qoH_sHrNREFCCGzz8E1l1sw6mv_LcqDD"
+    
+    try:
+        r = requests.get(url, stream=True)
+        r.raise_for_status()
+
+        with open("similarity.pkl", "wb") as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                if chunk:
+                    f.write(chunk)
+
+        print("✅ similarity.pkl downloaded")
+
+    except Exception as e:
+        print("❌ Download failed:", e)
+
+# 🔥 Load similarity AFTER download
 similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 # Clean names
