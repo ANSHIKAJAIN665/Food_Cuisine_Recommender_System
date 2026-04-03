@@ -12,8 +12,9 @@ new_df = pd.DataFrame(data)
 
 # 🔥 Download similarity.pkl if not exists
 # 🔥 Download similarity.pkl if not exists
+# 🔥 Download similarity.pkl if not exists
 if not os.path.exists("similarity.pkl"):
-    url = "https://drive.google.com/uc?export=download&id=1qoH_sHrNREFCCGzz8E1l1sw6mv_LcqDD"
+    url = "https://github.com/ANSHIKAJAIN665/Food_Cuisine_Recommender_System/releases/download/similarity.pkl/similarity.pkl"
 
     print("Downloading similarity.pkl...")
 
@@ -26,9 +27,7 @@ if not os.path.exists("similarity.pkl"):
 
     print("Download complete")
 
-# 🔥 ADD THIS (MOST IMPORTANT)
 similarity = pickle.load(open("similarity.pkl", "rb"))
-
 # Clean names
 new_df['name_clean'] = new_df['name'].astype(str).str.strip().str.lower()
 
