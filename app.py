@@ -4,22 +4,21 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# 🔥 Load data
+# Load data
 data = pickle.load(open('food_dict.pkl', 'rb'))
 new_df = pd.DataFrame(data)
 
-# 🔥 Load similarity
+# Load similarity
 similarity = pickle.load(open('similarity.pkl', 'rb'))
 
-# 🔥 Clean names
+# Clean names
 new_df['name_clean'] = new_df['name'].astype(str).str.strip().str.lower()
 
 
-# 🔥 Recommendation function
+# Recommendation function
 def recommend(food):
     food = str(food).strip().lower()
 
-    # exact match
     if food in new_df['name_clean'].values:
         food_index = new_df[new_df['name_clean'] == food].index[0]
     else:
@@ -45,7 +44,7 @@ def recommend(food):
     return results
 
 
-# 🔥 Route
+# Route
 @app.route('/', methods=['GET', 'POST'])
 def index():
     recommendations = []

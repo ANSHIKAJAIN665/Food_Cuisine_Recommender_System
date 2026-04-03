@@ -2,74 +2,30 @@
 <html>
 <head>
     <title>Food Recommender</title>
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            background: #f4f4f4;
-        }
-        .container {
-            margin-top: 80px;
-        }
-        select, button {
-            padding: 12px;
-            font-size: 16px;
-            width: 250px;
-        }
-        button {
-            background: #ff4d4d;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #e60000;
-        }
-        .result {
-            margin-top: 30px;
-        }
-        li {
-            list-style: none;
-            background: white;
-            margin: 8px auto;
-            padding: 12px;
-            width: 300px;
-            border-radius: 8px;
-        }
-    </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🍽️ Food Recommendation System</h1>
+<h1>🍽️ Food Recommendation System</h1>
 
-    <form method="POST">
-        <select name="food">
-            <option value="">-- Select Food --</option>
-            {% for food in food_list %}
-                <option value="{{ food }}"
-                    {% if food == selected_food %}selected{% endif %}>
-                    {{ food }}
-                </option>
-            {% endfor %}
-        </select>
+<form method="POST">
+    <select name="food">
+        {% for food in food_list %}
+            <option value="{{ food }}">{{ food }}</option>
+        {% endfor %}
+    </select>
 
-        <br><br>
-        <button type="submit">Recommend</button>
-    </form>
+    <br><br>
+    <button type="submit">Recommend</button>
+</form>
 
-    <div class="result">
-        {% if recommendations %}
-            <h2>Recommended Foods:</h2>
-            <ul>
-                {% for item in recommendations %}
-                    <li>{{ item }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
-
-</div>
+{% if recommendations %}
+    <h2>Recommended Foods:</h2>
+    <ul>
+        {% for item in recommendations %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
 </body>
 </html>
