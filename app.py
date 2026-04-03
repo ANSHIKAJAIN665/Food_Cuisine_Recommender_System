@@ -11,25 +11,23 @@ data = pickle.load(open('food_dict.pkl', 'rb'))
 new_df = pd.DataFrame(data)
 
 # 🔥 Download similarity.pkl if not exists
+# 🔥 Download similarity.pkl if not exists
 if not os.path.exists("similarity.pkl"):
     url = "https://drive.google.com/uc?export=download&id=1qoH_sHrNREFCCGzz8E1l1sw6mv_LcqDD"
-    
-    try:
-        r = requests.get(url, stream=True)
-        r.raise_for_status()
 
-        with open("similarity.pkl", "wb") as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                if chunk:
-                    f.write(chunk)
+    print("Downloading similarity.pkl...")
 
-        print("✅ similarity.pkl downloaded")
+    r = requests.get(url, stream=True)
 
-    except Exception as e:
-        print("❌ Download failed:", e)
+    with open("similarity.pkl", "wb") as f:
+        for chunk in r.iter_content(1024):
+            if chunk:
+                f.write(chunk)
 
-# 🔥 Load similarity AFTER download
-similarity = pickle.load(open('similarity.pkl', 'rb'))
+    print("Download complete")
+
+# 🔥 ADD THIS (MOST IMPORTANT)
+similarity = pickle.load(open("similarity.pkl", "rb"))
 
 # Clean names
 new_df['name_clean'] = new_df['name'].astype(str).str.strip().str.lower()
