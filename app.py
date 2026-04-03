@@ -6,13 +6,11 @@ import requests
 
 app = Flask(__name__)
 
-# Load data
+# 🔥 Load data
 data = pickle.load(open('food_dict.pkl', 'rb'))
 new_df = pd.DataFrame(data)
 
-# 🔥 Download similarity.pkl if not exists
-# 🔥 Download similarity.pkl if not exists
-# 🔥 Download similarity.pkl if not exists
+# 🔥 Load similarity
 if not os.path.exists("similarity.pkl"):
     url = "https://github.com/ANSHIKAJAIN665/Food_Cuisine_Recommender_System/releases/download/similarity.pkl/similarity.pkl"
 
@@ -28,14 +26,16 @@ if not os.path.exists("similarity.pkl"):
     print("Download complete")
 
 similarity = pickle.load(open("similarity.pkl", "rb"))
-# Clean names
+
+# 🔥 Clean names
 new_df['name_clean'] = new_df['name'].astype(str).str.strip().str.lower()
 
 
-# Recommendation function
+# 🔥 Recommendation function
 def recommend(food):
     food = str(food).strip().lower()
 
+    # exact match
     if food in new_df['name_clean'].values:
         food_index = new_df[new_df['name_clean'] == food].index[0]
     else:
@@ -61,7 +61,7 @@ def recommend(food):
     return results
 
 
-# Route
+# 🔥 Route
 @app.route('/', methods=['GET', 'POST'])
 def index():
     recommendations = []
@@ -80,5 +80,4 @@ def index():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)
